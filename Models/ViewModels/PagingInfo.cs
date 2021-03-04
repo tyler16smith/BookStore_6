@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace BookStoreTyler.Models.ViewModels
 {
+    // Model built specifically as a "Bundle" for a view is referred to as a "View Model"
     public class PagingInfo
     {
         // paging info data

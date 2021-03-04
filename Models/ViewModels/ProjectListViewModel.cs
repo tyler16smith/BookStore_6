@@ -7,8 +7,13 @@ namespace BookStoreTyler.Models.ViewModels
 {
     public class ProjectListViewModel
     {
-        // add the books to the total list
+        // Summary:
+        //     An 'interface' that returns an enumerator that iterates through the collection, inheriting from "IEnumerable"
+        //
+        // Returns:
+        //     An enumerator that can be used to iterate through the collection.
         public IEnumerable<Books> Books { get; set; }
         public PagingInfo PagingInfo { get; set; }
+        public string CurrentCategory { get; set; }
     }
 }

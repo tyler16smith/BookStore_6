@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
+    @* bootstrap is linked inside the <head> tag *@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -29,26 +30,10 @@
     <div class="row m-1 p-1">
         @* Side bar showing some filters *@
         <div class="col-3 justify-content-xl-center">
-            <br /><br />
-            <h4>Categories</h4>
-            <input type="checkbox" />&nbsp; Biography<br />
-            <input type="checkbox" />&nbsp; Children<br />
-            <input type="checkbox" />&nbsp; Fiction<br />
-            <input type="checkbox" />&nbsp; Historical<br />
-            <input type="checkbox" />&nbsp; Non-Fiction<br /><br />
-            <h4>Price</h4>
-            <input type="checkbox" />&nbsp; Below 10 <br />
-            <input type="checkbox" />&nbsp; 10-15<br />
-            <input type="checkbox" />&nbsp; 15-20<br />
-            <input type="checkbox" />&nbsp; 20-25<br />
-            <input type="checkbox" />&nbsp; 25-30<br />
-            <input type="checkbox" />&nbsp; 30+<br /><br />
-            <h4>Ratings</h4>
-            <input type="checkbox" />&nbsp; 5 Stars <br />
-            <input type="checkbox" />&nbsp; 4 Stars<br />
-            <input type="checkbox" />&nbsp; 3 Stars<br />
-            <input type="checkbox" />&nbsp; 2 Stars<br />
-            <input type="checkbox" />&nbsp; 1 Star<br />
+            <br /><br /><br />
+            <h3>Filter by Categories</h3><br />
+            @*Coding by convention: vc = "ViewComponent"*@
+            <vc:navigation-menu></vc:navigation-menu>
         </div>
         <div class="col-9">
             @RenderBody()
@@ -60,6 +45,11 @@
             Tyler's BookStore &copy; 2021
         </div>
     </footer>
+
+    @*
+        You can either manually type the .js links in, or drag them in :)
+        The '~' file represents the 'home' page
+    *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

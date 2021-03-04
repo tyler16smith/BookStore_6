@@ -14,9 +14,10 @@ namespace BookStoreTyler.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+        // make a private repository, to assign later
         private IBooksRepository _repository;
 
-        // number of items per page
+        // number of items per page; the ? means it is nullable
         public int PageSize = 5;
 
         // assigns public variable to private class variable
@@ -26,12 +27,14 @@ namespace BookStoreTyler.Controllers
             _repository = repository;
         }
 
-        public IActionResult Index(int page = 1)
+        // The Controller contains "Actions"
+        public IActionResult Index(string category, int page = 1)
         {
             //Create new ProjectListViewModel object to display on the page
             return View(new ProjectListViewModel
             {
                 Books = _repository.Books
+                    .Where(p => category == null || p.Classification == category)
                     .OrderBy(p => p.BookId)
                     .Skip((page - 1) * PageSize)
                     .Take(PageSize)
@@ -40,8 +43,11 @@ namespace BookStoreTyler.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalNumItems = _repository.Books.Count()
-                }
+                    TotalNumItems = category == null ? _repository.Books.Count() :
+                        _repository.Books.Where(x => x.Classification == category).Count()
+                        // ^ gives us only the count of the number of pages
+                },
+                CurrentCategory = category
             });
         }
 

@@ -22,12 +22,17 @@ namespace BookStoreTyler.Infrastructure
             urlHelperFactory = hp;
         }
 
-        //Attaching attributes to the properties
+        // Attaching attributes to the properties
         [ViewContext]
         [HtmlAttributeNotBound]
         public ViewContext ViewContext { get; set; }
         public PagingInfo PageModel { get; set; }
         public string PageAction { get; set; }
+        
+        // rather than having one attribute for everything, it will store additional entries
+        // common prefix becomes an entry in the tag
+        [HtmlAttributeName(DictionaryAttributePrefix ="page-url-")]
+        public Dictionary<string, object> PageUrlValues { get; set; } = new Dictionary<string, object>();
 
         public bool PageClassesEnabled { get; set; } = false;
         public string PageClass { get; set; }
@@ -38,19 +43,21 @@ namespace BookStoreTyler.Infrastructure
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             IUrlHelper urlHelper = urlHelperFactory.GetUrlHelper(ViewContext);
-
             TagBuilder result = new TagBuilder("div");
-
             // makes new page numbers
             for(int i = 1; i <= PageModel.TotalPages; i++)
             {
                 TagBuilder tag = new TagBuilder("a");
-                tag.Attributes["href"] = urlHelper.Action(PageAction, new { page = i });
+
+                PageUrlValues["page"] = i;
+                tag.Attributes["href"] = urlHelper.Action(PageAction, 
+                    PageUrlValues);
 
                 if (PageClassesEnabled)
                 {
                     tag.AddCssClass(PageClass);
                     tag.AddCssClass(i == PageModel.CurrentPage ? PageClassSelected : PageClassNormal);
+                    //                 ^ if                    ^ then              ^ else
                 }
 
 

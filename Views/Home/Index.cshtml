@@ -1,5 +1,6 @@
-﻿@{
+﻿@{ // dictionary that stores objects
     ViewData["Title"] = "Home Page";
+    //ViewBag.Title is an object that stores properties }
 }
 
 @model ProjectListViewModel
@@ -11,46 +12,48 @@
 
     @*
         The purpose of tag helpers: build HTML dynamically
-
-        NEW BOOTSTRAP:
-        - "justify-content-xl-center" on the _Layout page to justify the left "filters"
-        - "img-fluid" to better format the image
-        - "figure-img" to further format the image within each block
-        - "btn-primary" to make it look fancy
     *@
 
     @foreach (var book in Model.Books)
     {
-<div class="card card-body">
-    <div class="row m-1 p-1">
-        <div class="col-3">
-            <br />
-            <img src="~/img/bookcover.jpg" width="100" class="img-fluid figure-img" />
-        </div>
+        <div class="card card-body">
+            <div class="row m-1 p-1">
+                <div class="col-3">
+                    <br />
+                    <img src="~/img/bookcover.jpg" width="100" class="img-fluid figure-img" />
+                </div>
 
-        @* Display the data in columns *@
-        <div class="col-4">
-            <p>Book Title: <b>@book.Title</b></p>
-            <p>Author's Name: <b>@book.AuthorFirstName @book.AuthorMInitial @book.AuthorLastName</b></p>
-            <p>Number of Pages: <b>@book.NumPages</b></p>
-            <p>Price: <b>$@book.Price</b></p>
-        </div>
-        <div class="col-3">
-            <p>Publisher: <b>@book.Publisher</b></p>
-            <p>ISBN: <b>@book.ISBN</b></p>
-            <p>Category: <b>@book.Category</b></p>
-            <p>Classification: <b>@book.Classification</b></p>
-        </div>
-        <div class="col-2">
-            <br /><br /><br />
-            <a asp-action="Confirmation"><input type="button" class="btn btn-primary" value="Purchase" /></a>
-        </div>
-    </div>
-</div>      }
+                @* Display the data in columns *@
+                <div class="col-4">
+                    <p>Book Title: <b>@book.Title</b></p>
+                    <p>Author's Name: <b>@book.AuthorFirstName @book.AuthorMInitial @book.AuthorLastName</b></p>
+                    <p>Number of Pages: <b>@book.NumPages</b></p>
+                    <p>Price: <b>$@book.Price</b></p>
+                </div>
+                <div class="col-3">
+                    <p>Publisher: <b>@book.Publisher</b></p>
+                    <p>ISBN: <b>@book.ISBN</b></p>
+                    <p>Category: <b>@book.Category</b></p>
+                    <p>Classification: <b>@book.Classification</b></p>
+                </div>
+                <div class="col-2">
+                    <br /><br /><br />
+                    @*
+                        Links a form to an action: like 'href'
+                        If a label and the input share the same 'asp-for' property, clicking on the label will give focus to the input
+                    *@
+                    <a asp-action="Confirmation"><input type="button" class="btn btn-primary" value="Purchase" /></a>
+                </div>
+            </div>
+        </div>}
     <br /><br />
 </div>
 
 @* Dynamically outputs the page numbers *@
-<div page-model="Model.PagingInfo" page-action="Index" page-classes-enabled="true" page-class="btn" 
-     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" class="btn-group pull-right m-1"></div>
+@* 
+    Tag Helpers: "asp-for"
+    Attributes are created automatically from the "PageLinkTagHelper.cs"
+*@
+<div page-model="Model.PagingInfo" page-action="Index" page-classes-enabled="true" page-class="btn"
+     page-class-normal="btn-outline-dark" page-class-selected="btn-primary" page-url-category="@Model.CurrentCategory" class="btn-group pull-right m-1"></div>
 <br /><br /><br />

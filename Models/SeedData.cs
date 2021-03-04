@@ -11,16 +11,20 @@ namespace BookStoreTyler.Models
     public class SeedData
     {
         // IApplicationBuilder holds data we need
+        // 'static' variables are declared in the class
+        // Ensure the database is populated. If not yet, build the database!!
         public static void EnsurePopulated(IApplicationBuilder application)
         {
             BooksDbContext context = application.ApplicationServices.
                 CreateScope().ServiceProvider.GetRequiredService<BooksDbContext>();
 
+            // if there is nothing in the database then migrate the database from the models!!
             if (context.Database.GetPendingMigrations().Any())
             {
                 context.Database.Migrate();
             }
 
+            // if there IS anything in the database, then go add these things!! (so we don't override anything we have already done)
             if (!context.Books.Any())
             {
                 context.Books.AddRange(
@@ -199,6 +203,7 @@ namespace BookStoreTyler.Models
                     });
              }
 
+            // save the changes to the database!!
             context.SaveChanges();
          }
     }
